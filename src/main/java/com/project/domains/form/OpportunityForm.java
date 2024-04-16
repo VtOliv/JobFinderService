@@ -1,4 +1,4 @@
-package com.project.domains;
+package com.project.domains.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,18 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OpportunityForm {
-	
-	private Long id;
-	
-	private String jobName;
-	
-	private String description;
-	
-	private String shortDescription;
-	
-	private String companyName;
-	
-	private String income;
-	
+		
+	private String jobName;	
+	private String description;	
+	private String shortDescription;	
+	private String companyName;	
+	private String income;	
 	private String officeHour;
 }

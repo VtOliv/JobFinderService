@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.domains.Opportunity;
-import com.project.domains.OpportunityFilter;
-import com.project.domains.OpportunityForm;
+import com.project.domains.filter.OpportunityFilter;
+import com.project.domains.form.OpportunityForm;
 import com.project.service.OpportunityService;
 
 import lombok.RequiredArgsConstructor;

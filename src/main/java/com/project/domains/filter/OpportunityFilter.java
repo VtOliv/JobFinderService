@@ -1,4 +1,4 @@
-package com.project.domains;
+package com.project.domains.filter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

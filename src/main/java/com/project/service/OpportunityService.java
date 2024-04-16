@@ -14,8 +14,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.project.domains.Opportunity;
-import com.project.domains.OpportunityFilter;
-import com.project.domains.OpportunityForm;
+import com.project.domains.filter.OpportunityFilter;
+import com.project.domains.form.OpportunityForm;
 import com.project.repository.OpportunityRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,30 +30,13 @@ public class OpportunityService {
 
 	public Opportunity create(OpportunityForm form) {
 		var domain = mapper.map(form, Opportunity.class);
-
+		var count = repository.count();
+		
+		domain.setId(count + 1);
+		
 		return repository.save(domain);
 	}
-
-//	public Page<Opportunity> getFiltered(OpportunityFilter filter, Pageable pageable) {
-//
-//		if (of(filter.getId()).isPresent()) {
-//
-//			return repository.findAllById(filter.getId(), pageable);
-//		} else if (of(filter.getJobName()).isPresent()) {
-//
-//			return repository.findAllByJobNameIgnoreCase(filter.getJobName(), pageable);
-//		} else if (of(filter.getCompanyName()).isPresent()) {
-//
-//			return repository.findAllByCompanyNameIgnoreCase(filter.getCompanyName(), pageable);
-//		} else if (of(filter.getOfficeHour()).isPresent()) {
-//
-//			return repository.findAllByOfficeHourIgnoreCase(filter.getOfficeHour(), pageable);
-//		} else {
-//
-//			return repository.findAll(pageable);
-//		}
-//	}
-
+	
 	public Opportunity update(OpportunityForm form, Long id) {
 		var result = repository.findById(id).orElse(null);
 		
