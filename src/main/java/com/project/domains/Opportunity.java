@@ -29,4 +29,6 @@ public class Opportunity {
 	private String income;
 	
 	private String officeHour;
+	
+	private Long savedById;
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserView {
 
+	private Long id;
 	private String name;
 	private String result;
 	private String role;

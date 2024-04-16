@@ -44,6 +44,10 @@ public class UserService {
 	private User findUser(String email) {
 		return repository.findByEmail(email);
 	}
+	
+	public User findUserbyId(Long id) {
+		return repository.findById(id).orElse(null);
+	}
 
 	public UserView loginUser(LoginForm form) {
 		var user = findUser(form.getEmail());
@@ -57,6 +61,7 @@ public class UserService {
 		}
 		
 		return UserView.builder()
+				.id(user.getId())
 				.name(user.getName())
 				.role(user.getIsRecruiter() ? "Recrutador" : "Usuario")
 				.result(result? "success" : "failure")

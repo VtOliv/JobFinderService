@@ -1,8 +1,10 @@
 package com.project.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +37,7 @@ public class OpportunityController {
 
 		log.info("method={} id={}", "createOpportunity", createdOpportunity.getId());
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdOpportunity);
+		return ResponseEntity.status(CREATED).body(createdOpportunity);
 	}
 
 	@PutMapping("/update/{id}")
@@ -47,7 +49,7 @@ public class OpportunityController {
 
 		log.info("method={} id={}", "updateOpportunity", updatedOpportunity.getId());
 
-		return ResponseEntity.status(HttpStatus.OK).body(updatedOpportunity);
+		return ResponseEntity.status(OK).body(updatedOpportunity);
 	}
 
 	@GetMapping("find")
@@ -59,7 +61,7 @@ public class OpportunityController {
 
 		log.info("filter={} quantityFound={}", filter, response.getTotalElements());
 
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.status(OK).body(response);
 	}
 	
 	@GetMapping
@@ -71,6 +73,18 @@ public class OpportunityController {
 
 		log.info("quantityFound={}", response.getTotalElements());
 
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.status(OK).body(response);
+	}
+	
+	@GetMapping("/{id}")
+	private ResponseEntity<Opportunity> findOpportunityById(@PathVariable Long id) {
+
+		log.info("id={} method={}", id, "findOpportunityById");
+
+		var response = service.getById(id);
+
+		log.info("id={} name={}", id, response.getJobName());
+
+		return ResponseEntity.status(OK).body(response);
 	}
 }

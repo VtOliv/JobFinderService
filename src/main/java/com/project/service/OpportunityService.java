@@ -92,4 +92,8 @@ public class OpportunityService {
 			query.addCriteria(Criteria.where("officeHour").regex(filter.getOfficeHour()));
 		}
 	}
+	
+	public Opportunity getById(Long id) {
+		return repository.findById(id).orElse(null);
+	}
 }

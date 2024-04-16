@@ -17,4 +17,5 @@ public class OpportunityForm {
 	private String companyName;	
 	private String income;	
 	private String officeHour;
+	private Long savedById;
 }
