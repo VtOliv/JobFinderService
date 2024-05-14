@@ -1,5 +1,7 @@
 package com.project.domains;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,25 +14,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "vagas")
-public class Opportunity {
+@Document(collection = "usuarioDetalhe")
+public class UserDetails {
 	
 	@Id
 	private Long id;
 	
-	private String jobName;
+	private Long userId;
 	
-	private String description;
+	private String adress;
 	
-	private String shortDescription;
+	private String phoneNumber;
 	
-	private String companyName;
+	private List<Knowledge> knowledge;
 	
-	private String income;
+	private List<PreviousWorks> previousWorks;
 	
-	private String officeHour;
+	private List<Skills> skills;
 	
-	private Long savedById;
+	private String objective;
 	
-	private Boolean isActive;
+	private String about;
 }

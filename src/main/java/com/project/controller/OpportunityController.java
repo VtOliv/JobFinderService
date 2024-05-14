@@ -5,6 +5,8 @@ import static org.springframework.http.HttpStatus.OK;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class OpportunityController {
-	
+
 	private final OpportunityService service;
 
 	@PostMapping("/create")
@@ -44,7 +46,7 @@ public class OpportunityController {
 	private ResponseEntity<Opportunity> updateOpportunity(@PathVariable Long id, @RequestBody OpportunityForm form) {
 
 		log.info("form={}", form);
-		
+
 		var updatedOpportunity = service.update(form, id);
 
 		log.info("method={} id={}", "updateOpportunity", updatedOpportunity.getId());
@@ -53,7 +55,8 @@ public class OpportunityController {
 	}
 
 	@GetMapping("find")
-	private ResponseEntity<Page<Opportunity>> findOpportunity(OpportunityFilter filter, Pageable pageable) {
+	private ResponseEntity<Page<Opportunity>> findOpportunity(OpportunityFilter filter,
+			@PageableDefault(size = 10, direction = Direction.ASC) Pageable pageable) {
 
 		log.info("filter={} method={}", filter, "findOpportunity");
 
@@ -63,9 +66,10 @@ public class OpportunityController {
 
 		return ResponseEntity.status(OK).body(response);
 	}
-	
+
 	@GetMapping
-	private ResponseEntity<Page<Opportunity>> findAll(Pageable pageable) {
+	private ResponseEntity<Page<Opportunity>> findAll(
+			@PageableDefault(size = 10, direction = Direction.ASC) Pageable pageable) {
 
 		log.info("method={}", "findAll");
 
@@ -75,7 +79,7 @@ public class OpportunityController {
 
 		return ResponseEntity.status(OK).body(response);
 	}
-	
+
 	@GetMapping("/{id}")
 	private ResponseEntity<Opportunity> findOpportunityById(@PathVariable Long id) {
 
@@ -86,5 +90,30 @@ public class OpportunityController {
 		log.info("id={} name={}", id, response.getJobName());
 
 		return ResponseEntity.status(OK).body(response);
+	}
+
+	@GetMapping("/recruiter/{id}")
+	private ResponseEntity<Page<Opportunity>> findOpportunityByRecruiterId(@PathVariable Long id, Pageable pageable) {
+
+		log.info("id={} method={}", id, "findOpportunityByRecruiterId");
+
+		var response = service.getAllBySavedById(id, pageable);
+
+		log.info("id={} jobsFound={}", id, response.getNumberOfElements());
+
+		return ResponseEntity.status(OK).body(response);
+	}
+	
+	@PostMapping("/deactivate")
+	private ResponseEntity<String> deleteOpportunity(@RequestBody Long id){
+		
+		log.info("id={} method={}", id, "findOpportunityByRecruiterId");
+
+		var response = service.deleteById(id);
+
+		log.info("id={} response={}", response);
+		
+		return ResponseEntity.status(200).body(response);
+		
 	}
 }

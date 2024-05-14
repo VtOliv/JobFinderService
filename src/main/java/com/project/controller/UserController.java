@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
-	
+
 	private final UserService service;
 
 	@PostMapping("/user/create")
@@ -44,7 +44,7 @@ public class UserController {
 	private ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserForm form) {
 
 		log.info("form={}", form);
-		
+
 		var updatedUser = service.update(form, id);
 
 		log.info("method={} id={}", "updateUser", updatedUser.getId());
@@ -62,9 +62,9 @@ public class UserController {
 
 		return ResponseEntity.status(OK).body(loginStatus);
 	}
-	
+
 	@GetMapping("/user/{id}")
-	private ResponseEntity<User> findOpportunityById(@PathVariable Long id) {
+	private ResponseEntity<User> findUserById(@PathVariable Long id) {
 
 		log.info("id={} method={}", id, "findOpportunityById");
 

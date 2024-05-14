@@ -5,9 +5,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.domains.User;
+import com.project.domains.UserDetails;
 import com.project.domains.form.LoginForm;
+import com.project.domains.form.UserDetailedForm;
 import com.project.domains.form.UserForm;
+import com.project.domains.view.UserDetailedView;
 import com.project.domains.view.UserView;
+import com.project.repository.UserDetailedRepository;
 import com.project.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,7 @@ public class UserService {
 
 	private final ModelMapper mapper;
 	private final UserRepository repository;
+	private final UserDetailedRepository detailsRepository;
 
 	public User create(UserForm form) {
 		var domain = mapper.map(form, User.class);
@@ -66,5 +71,50 @@ public class UserService {
 				.role(user.getIsRecruiter() ? "Recrutador" : "Usuario")
 				.result(result? "success" : "failure")
 				.build();
+	}
+	
+	public UserDetailedView getDetails(Long id) {
+		var user = findUserbyId(id);
+		var details = detailsRepository.findById(id).orElse(null);
+		
+		var userDetailed = new UserDetailedView();
+		
+		if(details != null) {
+			userDetailed.setName(user.getName());
+			userDetailed.setEmail(user.getEmail());
+			userDetailed.setCpf(user.getCpf());
+			userDetailed.setAddress(details.getAdress());	
+			userDetailed.setPhoneNumber(details.getPhoneNumber());
+			userDetailed.setKnowledge(details.getKnowledge());
+			userDetailed.setPreviousWorks(details.getPreviousWorks());
+			userDetailed.setSkills(details.getSkills());
+			userDetailed.setObjective(details.getObjective());
+			userDetailed.setAbout(details.getAbout());
+		}
+		
+		return userDetailed;
+	}
+	
+	public UserDetails saveDetails(UserDetailedForm form) {
+		
+		var user = findUserbyId(form.getUserId());
+		
+		UserDetails details = null;
+		
+		if(user != null) {
+			details = UserDetails.builder()
+					.id(form.getUserId())
+					.userId(form.getUserId())
+					.adress(form.getAddress())
+					.phoneNumber(form.getPhoneNumber())
+					.knowledge(form.getKnowledge())
+					.previousWorks(form.getPreviousWorks())
+					.skills(form.getSkills())
+					.about(form.getAbout())
+					.objective(form.getObjective())
+					.build();
+		}
+		
+		return detailsRepository.save(details);
 	}
 }
