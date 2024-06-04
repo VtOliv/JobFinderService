@@ -64,7 +64,7 @@ public class OpportunityService {
 	}
 
 	public Page<Opportunity> getAllPaginated(Pageable pageable) {
-		return repository.findAll(pageable);
+		return repository.findAllByIsActive(true, pageable);
 	}
 
 	private Query buildQuery(Pageable pageable) {

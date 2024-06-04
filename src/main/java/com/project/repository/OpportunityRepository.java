@@ -12,5 +12,6 @@ public interface OpportunityRepository extends MongoRepository<Opportunity, Long
 	
 	Page<Opportunity> findAllById(Long id, Pageable pageable);
 	Page<Opportunity> findAllBySavedById(Long savedById, Pageable pageable);
-	List<Opportunity> findAllBySavedById(Long savedById	);
+	List<Opportunity> findAllBySavedById(Long savedById);
+	Page<Opportunity> findAllByIsActive(Boolean isActive, Pageable pageable);
 }
